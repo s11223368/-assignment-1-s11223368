@@ -85,7 +85,7 @@ As always, we'll be using GitHub Classroom for this assignment, and you will sub
 
 ## Grading criteria
 
-Your program **MUST** compile and run on flip.engr.oregonstate.edu, so make sure you have tested your work there before you make your final submission, since a program that compiles and runs in one environment may not compile and run in another.  **Assignments that do not compile on flip will receive a grade of 0.**  If you do not have an ENGR account, you can create one at https://teach.engr.oregonstate.edu/.
+Your program **MUST** compile and run on `flip.engr.oregonstate.edu`, so make sure you have tested your work there before you make your final submission, since a program that compiles and runs in one environment may not compile and run in another.  **Assignments that do not compile on flip will receive a grade of 0.**  If you do not have an ENGR account, you can create one at https://teach.engr.oregonstate.edu/.
 
 The assignment is worth 100 total points, broken down as follows:
 
