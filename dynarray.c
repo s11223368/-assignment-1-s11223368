@@ -30,7 +30,7 @@ struct dynarray* dynarray_create() {
   assert(da->data);
   da->size = 0;
   da->capacity = DYNARRAY_INIT_CAPACITY;
-
+  
   return da;
 }
 
