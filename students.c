@@ -3,14 +3,17 @@
  * the assignment.  Make sure to add your name and @oregonstate.edu email
  * address below:
  *
- * Name:
- * Email:
+ * Name:Po-Sheng Hsu 
+ * Email:hsupos@oregonstate.edu
  */
 
 #include <stdio.h>
-
+#include <stdlib.h>
+#include <string.h>
 #include "students.h"
 #include "dynarray.h"
+
+
 
 /*
  * This function should allocate and initialize a single student struct with
@@ -28,7 +31,13 @@
  *   initialized with the values provided.
  */
 struct student* create_student(char* name, int id, float gpa) {
-  return NULL;
+	struct student* s = malloc(sizeof(struct student)); //Allocate a memory to store struct student 
+    s->name = malloc((1 + strlen(name)) * sizeof(char));//Store name
+    strcpy(s->name, name);//Copy string from name to s->name
+    s->id = id;//Store id
+    s->gpa = gpa;//Store gpa
+    return s;// return pointer
+
 }
 
 
@@ -42,9 +51,21 @@ struct student* create_student(char* name, int id, float gpa) {
  *     function must free any memory allocated to the fields of this struct
  *     as well as memory allocated for the struct itself.
  */
-void free_student(struct student* student) {
 
+
+
+void free_student(struct student* student)
+{	free(student->name);
+	free(student);
 }
+
+
+
+struct dynarray {
+  void** data;
+  int size;
+  int capacity;
+};
 
 
 /*
@@ -75,11 +96,23 @@ void free_student(struct student* student) {
  *   newly-created student structs.  The i'th student in this array should have
  *   the i'th name, the i'th ID, and the i'th GPA from the arrays provided as
  *   arguments.
+ *
  */
+
 struct dynarray* create_student_array(int num_students, char** names, int* ids,
     float* gpas) {
-  return NULL;
-}
+  	int i, n = num_students;
+    struct student* students;
+    struct dynarray* da =  dynarray_create();
+    
+    for (i = 0; i < n; i++) {
+         students = create_student(names[i],ids[i],gpas[i]);
+         
+         dynarray_insert(da,i,students);
+    }
+   
+  return da;
+				}
 
 
 /*
@@ -97,6 +130,15 @@ struct dynarray* create_student_array(int num_students, char** names, int* ids,
  *     is to be freed
  */
 void free_student_array(struct dynarray* students) {
+	int i,n=8;
+	struct student* student;
+	for(i=0;i<n;i++){
+	
+	student=dynarray_get(students,i);
+	free_student(student);
+	}
+	dynarray_free(students);
+	
 
 }
 
@@ -110,7 +152,17 @@ void free_student_array(struct dynarray* students) {
  *   students - the dynamic array of students to be printed
  */
 void print_students(struct dynarray* students) {
-
+	int i,n=8;
+	struct student* student;
+	for(i=0;i<n;i++)
+	{
+	
+	student=dynarray_get(students,i);
+    printf("%s %d %f \n",student->name,student->id,student->gpa);
+	}
+    
+	
+	
 }
 
 
@@ -132,7 +184,22 @@ void print_students(struct dynarray* students) {
  *   the array.
  */
 struct student* find_max_gpa(struct dynarray* students) {
-  return NULL;
+	int i,n=8;
+	float max=0;
+	struct student* student1,* student_max;
+	
+	for(i=0;i<n;i++)
+	{
+		student1=dynarray_get(students, i);
+	if(student1->gpa>=max)
+	{
+		max=student1->gpa;
+		student_max=student1;
+	}
+	
+	}
+	
+  return student_max;
 }
 
 
@@ -154,7 +221,36 @@ struct student* find_max_gpa(struct dynarray* students) {
  *   the array.
  */
 struct student* find_min_gpa(struct dynarray* students) {
-  return NULL;
+  	int i=0,n=8;
+	float min;
+	struct student* student1,* student2,* student_min;
+	
+	student1=dynarray_get(students, i);
+	student2=dynarray_get(students, i+1);
+	if(student1->gpa<=student2->gpa)
+	{
+		min=student1->gpa;
+		student_min=student1;
+	}
+	else
+	{
+	    min=student2->gpa;
+		student_min=student2;
+	}
+	
+	
+	for(i=0;i<n;i++)
+	{
+		student1=dynarray_get(students, i);
+	if(student1->gpa<=min)
+	{
+		min=student1->gpa;
+		student_min=student1;
+	}
+	
+	}
+	
+  return student_min;
 }
 
 
@@ -176,5 +272,24 @@ struct student* find_min_gpa(struct dynarray* students) {
  *     returns, this array should be sorted by descending GPA.
  */
 void sort_by_gpa(struct dynarray* students) {
-
+	
+	int i=0,j,n=7,idx;
+	
+	struct student* student1,* student2, * student_move;
+	
+	student1=dynarray_get(students, i);
+	for(;n>0;n--){
+	for(i=0;i<n;i++)
+	{
+		student1=dynarray_get(students, i);
+		student2=dynarray_get(students, i+1);
+		if(student1->gpa<student2->gpa)
+		{
+			
+			student_move= student1;
+			dynarray_set(students, i, student2);
+			dynarray_set(students, i+1, student_move);
+			}	
+	}
+				 }
 }
